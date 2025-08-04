@@ -3,12 +3,18 @@
   apt:
     name: nginx
     state: present
-    update_cache: true
-  become: true
+    update_cache: yes
 
-- name: Start and enable nginx
+- name: Copy custom index.html to Nginx web root
+  copy:
+    src: index.html
+    dest: /var/www/html/index.html
+    owner: www-data
+    group: www-data
+    mode: '0644'
+
+- name: Ensure Nginx is running
   service:
     name: nginx
     state: started
-    enabled: true
-  become: true
+    enabled: yes
