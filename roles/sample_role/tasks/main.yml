@@ -1,0 +1,4 @@
+---
+- name: Print a message from role
+  debug:
+    msg: "This is coming from the sample_role!"
