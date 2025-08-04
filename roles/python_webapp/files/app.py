@@ -3,7 +3,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "🚀 Hello DevOps Engineer, learning Ansible Tower AWX UI automation done"
+    return "🚀 Hello DevOps Engineer, learning Ansible Tower AWX UI automation done V2"
 
 if __name__ == "__main__":
     app.run()
