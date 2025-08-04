@@ -38,6 +38,9 @@
   copy:
     src: gunicorn.service
     dest: /etc/systemd/system/gunicorn.service
+  notify:
+    - Reload systemd daemon
+    - Restart Gunicorn service
   become: yes
 
 - name: Start and enable Gunicorn
