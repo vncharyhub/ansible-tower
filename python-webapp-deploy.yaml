@@ -1,6 +1,6 @@
 ---
 - name: Deploy Python Web App
-  hosts: web
+  hosts: all
   become: yes
   roles:
     - python_webapp
