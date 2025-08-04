@@ -1,0 +1,55 @@
+- name: Install dependencies
+  apt:
+    name: ['python3-pip', 'python3-venv', 'nginx']
+    update_cache: yes
+  become: yes
+
+- name: Create app directory
+  file:
+    path: /home/ubuntu/myapp
+    state: directory
+    owner: ubuntu
+    mode: '0755'
+  become: yes
+
+- name: Copy app.py and requirements
+  copy:
+    src: "{{ item }}"
+    dest: /home/ubuntu/myapp/
+    owner: ubuntu
+  with_items:
+    - app.py
+    - requirements.txt
+  become: yes
+
+- name: Create virtual environment
+  command: python3 -m venv venv
+  args:
+    chdir: /home/ubuntu/myapp
+  become: yes
+
+- name: Install Python dependencies
+  command: /home/ubuntu/myapp/venv/bin/pip install -r requirements.txt
+  args:
+    chdir: /home/ubuntu/myapp
+  become: yes
+
+- name: Copy Gunicorn systemd service
+  copy:
+    src: gunicorn.service
+    dest: /etc/systemd/system/gunicorn.service
+  become: yes
+
+- name: Start and enable Gunicorn
+  systemd:
+    name: gunicorn
+    enabled: yes
+    state: started
+  become: yes
+
+- name: Configure Nginx
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/sites-available/default
+  notify: Restart Nginx
+  become: yes
