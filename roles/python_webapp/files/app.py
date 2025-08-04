@@ -1,9 +1,10 @@
-from flask import Flask
+from flask import Flask, render_template
+
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "🚀 Hello DevOps Engineer, learning Ansible Tower AWX UI automation done SUCCESS"
+    return render_template("index.html")
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
